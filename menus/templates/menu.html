@@ -1,0 +1,75 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% load menu_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Example</title>
+    <style>
+        .active {
+            font-weight: bold;
+        }
+        #sidebar {
+            height: 100vh;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #e4fa80;
+        }
+        #content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        a:link {
+        color: rgb(0, 0, 0);
+        background-color: transparent;
+        text-decoration: none;
+        }
+
+        a:visited {
+        color: rgb(0, 0, 0);
+        background-color: transparent;
+        text-decoration: none;
+        }
+
+        a:hover {
+        color: rgb(0, 0, 0);
+        background-color: transparent;
+        text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dynamic Menu</h3> 
+        </div>
+        {% autoescape off %}
+        <ul class="nav flex-column">
+            {% for menu in menus %}
+                <li class="mb-1">
+                    <button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#{{ menu.name|slugify }}-collapse" aria-expanded="false">
+                        {{ menu.name }}
+                    </button>
+                    <div class="collapse" id="{{ menu.name|slugify }}-collapse">
+                        <ul class="list-unstyled fw-normal pb-1 small">
+                            <li>{% draw_menu menu.name %}</li>
+                        </ul>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endautoescape %}
+    </nav>
+    <div id="content">
+        <h2>Content</h2>
+        <p>Very interesting content for the main page</p>
+    </div>
+</body>
+</html>                
